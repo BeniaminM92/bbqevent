@@ -1,0 +1,35 @@
+<div>Das ist eine {{ name }}</div>
+
+{#{% for index,x in partys %}#}
+{#    {% if index == 1 %}#}
+{#        <div>Tschau Kakao</div>#}
+{#    {% else %}#}
+{#        <div>#}
+{#            <!-- print funktion -->#}
+{#            {{ x }}#}
+{#        </div>#}
+{#    {% endif %}#}
+{#{% endfor %}#}
+
+{#{% for x in partys %}#}
+{#    {% if x == 'party2' %}#}
+{#        <div>Tschau Kakao</div>#}
+{#        {% elseif x == 'party3' %}#}
+{#            <div>Hallo Schmalo</div>#}
+{#        {% else %}#}
+{#        <div>#}
+{#            {{ x }}#}
+{#        </div>#}
+{#    {% endif %}#}
+{#{% endfor %}#}
+
+ {% for party in partys %}
+     <div>
+         {{ party.name }}:
+         {% if party.seats > 0 %}
+             Noch {{ party.seats }} Plätze frei
+         {% else %}
+             <span style="color: red;">Ausverkauft!</span>
+         {% endif %}
+     </div>
+ {% endfor %}
