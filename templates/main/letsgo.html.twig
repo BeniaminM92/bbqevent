@@ -1,4 +1,4 @@
-<div>Das ist eine {{ name }}</div>
+{#<div>Das ist eine {{ party1.name }} Party mit {{ party1.seats }} freien Plätzen</div>#}
 
 {#{% for index,x in partys %}#}
 {#    {% if index == 1 %}#}
@@ -10,6 +10,8 @@
 {#        </div>#}
 {#    {% endif %}#}
 {#{% endfor %}#}
+
+
 
 {#{% for x in partys %}#}
 {#    {% if x == 'party2' %}#}
@@ -23,13 +25,27 @@
 {#    {% endif %}#}
 {#{% endfor %}#}
 
- {% for party in partys %}
-     <div>
-         {{ party.name }}:
-         {% if party.seats > 0 %}
-             Noch {{ party.seats }} Plätze frei
-         {% else %}
-             <span style="color: red;">Ausverkauft!</span>
-         {% endif %}
-     </div>
- {% endfor %}
+
+{# EIGENER ANSATZ #}
+{# {% for party in partys %}#}
+{#     <div>#}
+{#         {{ party.name }} Event:#}
+{#         {% if party.seats > 0 %}#}
+{#             Noch <span style="color: #20c428;">{{ party.seats }}</span> Plätze frei.#}
+{#         {% else %}#}
+{#             <span style="color: red;">Ausverkauft!</span>#}
+{#         {% endif %}#}
+{#     </div>#}
+{# {% endfor %}#}
+
+{# MANUELS ANSATZ #}
+{% for party in partys %}
+    {% if party.seats == 0 %}
+        <div>{{ party.name }} Party ist Ausverkauft</div>
+        <br>
+    {% elseif party.seats <= 10 %}
+        <div>{{ party.name }} Party sind nur noch {{ party.seats }} freie Plätze.</div>
+    {% else %}
+        <div>{{ party.name }} Party sind nur noch {{ party.seats }} freie Plätze.</div>
+    {% endif %}
+{% endfor %}
