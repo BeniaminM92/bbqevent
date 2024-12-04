@@ -9,6 +9,6 @@
         {% else %}
             <div>{{ x.name }} Party sind nur noch {{ x.seats }} freie Plätze.</div>
         {% endif %}
-        <a href="{{ path('app_main_show', {id: x.id}) }}">Klick mich!</a>
+        <a href="{{ path('app_event_show', {id: x.id}) }}">Klick mich!</a>
     {% endfor %}
 {% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ pageTitle }}
+{% endblock %}
+
+{% block headline %}
+    {{ pageHeadline }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>{{ pageHeadline }}</h2>
+
+        <p><strong>Name:</strong> {{ event.getName() }}</p>
+        <p><strong>Beschreibung:</strong> {{ event.getDescription() }}</p>
+        <p><strong>Ort:</strong> {{ event.getLocation() }}</p>
+        <p><strong>Gebuchte Plätze:</strong> {{ event.getBookedSeats() }}</p>
+
+        <a href="{{ path('app_event_show', { id: event.getId() }) }}" class="btn btn-secondary">Zurück</a>
+    </div>
+{% endblock %}
+

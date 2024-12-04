@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ pageTitle }}
+{% endblock %}
+
+{% block headline %}
+    {{ pageHeadline }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>Event Übersicht</h2>
+        <ul class="list-group">
+            {% for event in events %}
+                <li class="list-group-item">
+                    <strong>{{ event.name }}</strong>
+                    <a href="{{ path('app_event_show', { id: event.id }) }}" class="btn btn-sm btn-info">Details</a>
+                </li>
+            {% else %}
+                <li class="list-group-item">Keine Events verfügbar.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -6,7 +6,7 @@ use App\Model\Event;
 
 class EventRepository
 {
-    public function findAll(): array
+    public function findAll(): ?array
     {
         $party1 = new Event(1, 'Techno', 'Super Techno Party', 'Alex', 50 );
         $party2 = new Event(2, 'Rock', 'Tolle Rock Party', 'ABC', 190 );
