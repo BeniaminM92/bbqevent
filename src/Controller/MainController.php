@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/', name: 'app_main_letsgo')]
     public function letsgo(EventRepository $eventRepository): Response
     {
 //        $party1 = ['name'=>'Techno', 'seats'=> 100]; # Fuer die Techno Event sind noch 100 Plätze frei
@@ -18,22 +18,20 @@ class MainController extends AbstractController
 //        $partys = [$party1, $party2, $party3];
 //        $daten = ['name'=>'Hip Hop Event' , 'partys'=>$partys];
 
-        $daten = ['name'=>'Hip Hop Event' , 'partys'=>$eventRepository->findAll()];
-
-
-
+        $daten = ['name'=>'Hip Hop Event' , 'events'=>$eventRepository->findAll()];
         return $this->render('main/letsgo.html.twig', $daten);
     }
 
-    #[Route('/show/{slug}')]
-    public function show(?int $id = null) : Response
+    #[Route('/show/{id}', name: 'app_main_show')]
+    public function show(string $id = null, EventRepository $eventRepository): Response
     {
-        if($id) {
-            $title = ucwords(str_replace('_', ' ', $id));
-            return new Response("zeige uns $title");
 
+        $event = $eventRepository->find($id);
+
+        if($event){
+            return $this->render('main/show.html.twig', ['event'=>$event]);
         } else {
-            return $this->render('main/show.html.twig', $daten);
+            return new Response('Party gibt es nicht!');
         }
     }
 }

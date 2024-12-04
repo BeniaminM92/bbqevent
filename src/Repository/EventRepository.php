@@ -15,8 +15,17 @@ class EventRepository
         return [$party1, $party2, $party3];
     }
 
-    public function findById()
+    public function find(int $id): ?Event
     {
-
+        $events = $this->findAll();
+        foreach ($events as $event)
+        {
+            if ($event->getId() == $id)
+            {
+                return $event;
+            }
+        }
+        return null;
     }
+
 }

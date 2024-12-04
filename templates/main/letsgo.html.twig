@@ -1,51 +1,14 @@
-{#<div>Das ist eine {{ party1.name }} Party mit {{ party1.seats }} freien Plätzen</div>#}
+{% extends 'base.html.twig' %}
 
-{#{% for index,x in partys %}#}
-{#    {% if index == 1 %}#}
-{#        <div>Tschau Kakao</div>#}
-{#    {% else %}#}
-{#        <div>#}
-{#            <!-- print funktion -->#}
-{#            {{ x }}#}
-{#        </div>#}
-{#    {% endif %}#}
-{#{% endfor %}#}
-
-
-
-{#{% for x in partys %}#}
-{#    {% if x == 'party2' %}#}
-{#        <div>Tschau Kakao</div>#}
-{#        {% elseif x == 'party3' %}#}
-{#            <div>Hallo Schmalo</div>#}
-{#        {% else %}#}
-{#        <div>#}
-{#            {{ x }}#}
-{#        </div>#}
-{#    {% endif %}#}
-{#{% endfor %}#}
-
-
-{# EIGENER ANSATZ #}
-{# {% for party in partys %}#}
-{#     <div>#}
-{#         {{ party.name }} Event:#}
-{#         {% if party.seats > 0 %}#}
-{#             Noch <span style="color: #20c428;">{{ party.seats }}</span> Plätze frei.#}
-{#         {% else %}#}
-{#             <span style="color: red;">Ausverkauft!</span>#}
-{#         {% endif %}#}
-{#     </div>#}
-{# {% endfor %}#}
-
-{# MANUELS ANSATZ #}
-{% for party in partys %}
-    {% if party.seats == 0 %}
-        <div>{{ party.name }} Party ist Ausverkauft</div>
-        <br>
-    {% elseif party.seats <= 10 %}
-        <div>{{ party.name }} Party sind nur noch {{ party.seats }} freie Plätze.</div>
-    {% else %}
-        <div>{{ party.name }} Party sind nur noch {{ party.seats }} freie Plätze.</div>
-    {% endif %}
-{% endfor %}
+{% block body %}
+    {% for x in events %}
+        {% if x.seats == 0 %}
+            <div>{{ x.name }} Party ist Ausverkauft</div>
+        {% elseif x.seats <= 10 %}
+            <div>{{ x.name }} Party sind nur noch {{ x.seats }} freie Plätze.</div>
+        {% else %}
+            <div>{{ x.name }} Party sind nur noch {{ x.seats }} freie Plätze.</div>
+        {% endif %}
+        <a href="{{ path('app_main_show', {id: x.id}) }}">Klick mich!</a>
+    {% endfor %}
+{% endblock %}
