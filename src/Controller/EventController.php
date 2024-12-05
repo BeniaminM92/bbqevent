@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Event;
 use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -70,5 +72,16 @@ class EventController extends AbstractController
         // Return to the events index page after deletion
         return $this->redirectToRoute('app_event_index');
     }
-
+    #[Route('/new', name: 'app_event_new')]
+    public function new(EntityManagerInterface $entityManager): Response
+    {
+        $event = new Event();
+        $event->setName('Alex')
+            ->setDescription('blablabla')
+            ->setBookedseats(20);
+//        dd($event);
+        $entityManager->persist($event);
+        $entityManager->flush();
+        return new Response('Event erfolgreich erstellt!');
+    }
 }
