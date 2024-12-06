@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <form action="{{ path('app_event_test') }}" method="POST">
+        <button value="hallo" name="key">hallo</button>
+        <button value="bye" name="key">bye</button>
+
+    </form>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

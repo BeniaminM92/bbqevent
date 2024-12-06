@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ pageTitle }}
+{% endblock %}
+
+{% block headline %}
+    {{ pageHeadline }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>Location Übersicht</h2>
+        <ul class="list-group">
+            {% for location in locations %}
+                <li class="list-group-item">
+                    <strong>{{ location.name }}</strong>
+                    <a href="{{ path('app_location_show', { id: location.id }) }}" class="btn btn-sm btn-info">Details</a>
+                </li>
+            {% else %}
+                <li class="list-group-item">Keine Location verfügbar.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

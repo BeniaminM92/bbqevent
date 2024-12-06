@@ -1,108 +1,74 @@
 <?php
+
 namespace App\Controller;
 
-use App\Form\LocationType;
-use App\Model\Location;
+use App\Entity\Location;
 use App\Repository\LocationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-//#[Route('/event')]
+
+#[Route('/location')]
 class LocationController extends AbstractController{
-    #[Route('/location', name: 'app_location_location')]
-    public function index(LocationRepository $locationRepository) : Response
+    #[\Symfony\Component\Routing\Attribute\Route('/', name: 'app_location_index')]
+    public function index(LocationRepository $locationRepository): Response
     {
+        $locations = $locationRepository->findAll();
 
-        return $this->render('location/home.html.twig',  ['locations' => $locationRepository->findAll()]);
-
+        return $this->render('location/index.html.twig', [
+            'pageTitle' => 'Location Übersicht',
+            'pageHeadline' => 'Alle verfügbaren Locations',
+            'locations' => $locations,
+        ]);
     }
 
-
-    #[Route('/location/show/{id}', name: 'app_location_show')]
-    public function show(int $id, LocationRepository $locationRepository): Response
+    #[Route('/show/{id}', name: 'app_location_show')]
+    public function show(string $id = null, LocationRepository $locationRepository): Response
     {
-        $location = $locationRepository->findOne($id);
+        $location = $locationRepository->find($id);
 
-        if($location){
+        if ($location) {
             return $this->render('location/show.html.twig', [
+                'pageTitle' => $location->getName(),
+                'pageHeadline' => 'Details for ' . $location->getName(),
                 'location' => $location,
             ]);
-        }else{
-            return new Response('No Location Found');
+        } else {
+            return new Response('Party gibt es nicht!');
         }
-
-
     }
-
-    #[Route('/location/new', name: 'app_location_new')]
-    public function create(Request $request, LocationRepository $locationRepository): Response
+    #[Route('/edit/{id}', name: 'app_location_edit')]
+    public function edit(Location $location, EntityManagerInterface $entityManager): Response
     {
-        $location = new Location(0, '', '', '', null);
-        $form = $this->createForm(LocationType::class, $location);
+        $location->setName('BerlinClub');
+        $entityManager->persist($location);
+        $entityManager->flush();
+//        dd($location);
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $newId = count($locationRepository->findAll()) + 1; // Generate ID
-            $location->id = $newId;
-            $locationRepository->add($location);
-
-            return $this->redirectToRoute('app_location_location');
-        }
-
-        return $this->render('location/new.html.twig', [
-            'form' => $form->createView(),
-            'location' => $location,
-        ]);
+        return $this->redirectToRoute('app_location_show', ['id' => $location->getId()]);
     }
 
-    #[Route('/location/{id}/edit', name: 'app_location_edit')]
-    public function edit(int $id, Request $request, LocationRepository $locationRepository): Response
+    #[Route('/delete/{id}', name: 'app_location_delete')]
+    public function delete(Location $location, EntityManagerInterface $entityManager): Response
     {
-        $location = $locationRepository->findOne($id);
-        if (!$location) {
-            return new Response('Location not found', Response::HTTP_NOT_FOUND);
-        }
+        $entityManager->remove($location);
+        $entityManager->flush();
+//        dd($location);
 
-        $form = $this->createForm(LocationType::class, $location);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Updated in-place, no need to explicitly persist
-            return $this->redirectToRoute('app_location_location');
-        }
-
-        return $this->render('location/edit.html.twig', [
-            'form' => $form->createView(),
-            'location' => $location,
-        ]);
+        return $this->redirectToRoute('app_location_index');
     }
 
-    #[Route('/location/{id}/delete', name: 'app_location_delete', methods: ['POST'])]
-    public function delete(int $id, Request $request, LocationRepository $locationRepository): Response
+    #[Route('/new', name: 'app_location_new')]
+    public function new(EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $locationRepository->delete($id);
-        }
-
-        return $this->redirectToRoute('app_location_location');
+        $location = new Location();
+        $location->setName('BerlinClub')
+            ->setAddress('Holzweg 123')
+            ->setCapacity(20);
+//        dd($location);
+        $entityManager->persist($location);
+        $entityManager->flush();
+        return new Response('Location erfolgreich erstellt!');
     }
-
-
-
-
-//    #[Route('/event/{id}/edit', name: 'app_event_edit')]
-//    public function edit(int $id, EventRepository $eventRepository): Response
-//    {
-//            return new Response('');
-//    }
-//    #[Route('/event/{id}/delete', name: 'app_event_delete')]
-//    public function delete(int $id, EventRepository $eventRepository): Response
-//    {
-//        return new Response('');
-//    }
-
-
-
-
 }

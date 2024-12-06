@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\BinaryOp\Equal;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -30,7 +32,7 @@ class EventController extends AbstractController
         $event = $eventRepository->find($id);
 
         if ($event) {
-            return $this->render('main/show.html.twig', [
+            return $this->render('event/show.html.twig', [
                 'pageTitle' => $event->getName(),
                 'pageHeadline' => 'Details for ' . $event->getName(),
                 'event' => $event,
@@ -41,40 +43,29 @@ class EventController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'app_event_edit')]
-    public function edit(string $id, EventRepository $eventRepository): Response
+    public function edit(Event $event, EntityManagerInterface $entityManager): Response
     {
-        $event = $eventRepository->find($id);
+        $event->setName('Techno-Event');
+        $entityManager->persist($event);
+        $entityManager->flush();
 
-        if (!$event) {
-            return new Response('Event not found!', 404);
-        }
-
-        // Render edit form with current event details
-        return $this->render('event/edit.html.twig', [
-            'pageTitle' => 'Bearbeiten: ' . $event->getName(),
-            'pageHeadline' => 'Bearbeiten: ' . $event->getName(),
-            'event' => $event,
-        ]);
+        return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
     }
 
     #[Route('/delete/{id}', name: 'app_event_delete')]
-    public function delete(string $id, EventRepository $eventRepository): Response
+    public function delete(Event $event, EntityManagerInterface $entityManager): Response
     {
-        $event = $eventRepository->find($id);
+        $entityManager->remove($event);
+        $entityManager->flush();
+//        dd($location);
 
-        if (!$event) {
-            return new Response('Event not found!', 404);
-        }
-        // Simulate deletion by filtering out the event from the repository
-        $allEvents = $eventRepository->findAll();
-        $updatedEvents = array_filter($allEvents, fn($e) => $e->getId() !== (int) $id);
-
-        // Return to the events index page after deletion
-        return $this->redirectToRoute('app_event_index');
+        return $this->redirectToRoute('app_location_index');
     }
+
     #[Route('/new', name: 'app_event_new')]
-    public function new(EntityManagerInterface $entityManager): Response
+    public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
+//        dd($request->query->all());
         $event = new Event();
         $event->setName('Alex')
             ->setDescription('blablabla')
@@ -84,4 +75,18 @@ class EventController extends AbstractController
         $entityManager->flush();
         return new Response('Event erfolgreich erstellt!');
     }
+
+    #[Route('/test', name: 'app_event_test')]
+    public function test(Request $request)
+    {
+        if ($request->isMethod('GET')) {
+
+            return $this->render('post.html.twig');
+        } elseif ($request->isMethod('POST')) {
+            $var = $request->request->all()['key'];
+            return new Response("Machen Sachen $var");
+        }
+
+    }
+
 }

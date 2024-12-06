@@ -1,32 +1,21 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}
-    {{ parent() }}
-    | Details
+    {{ pageTitle }}
+{% endblock %}
+
+{% block headline %}
+    {{ pageHeadline }}
 {% endblock %}
 
 {% block body %}
     <div class="container">
-        <br>
-        <h2>Location Details</h2>
+        <h2>{{ location.getName() }}</h2>
+        <p>{{ location.getAddress() }}</p>
+        <p>Kapazität: {{ location.getCapacity() }}</p>
+        <a href="{{ path('app_location_edit', { id: location.getId() }) }}" class="btn btn-warning">Bearbeiten</a>
+        <a href="{{ path('app_location_delete', { id: location.getId() }) }}" class="btn btn-danger">Löschen</a>
 
-{#        {% if party %}#}
-            <p><strong>Name:</strong> {{ location.name }}</p>
-            <p><strong>Description:</strong> {{ location.description }}</p>
-            <p><strong>Address:</strong> {{ location.address }}</p>
-            <p><strong>Capacity:</strong> {{ location.capacity }}</p>
-{#        {% else %}#}
-{#            <p>Party not found.</p>#}
-{#        {% endif %}#}
-        <div class="mt-4">
-
-            <a href="{{ path('app_location_edit', {id: location.id}) }}" class="btn btn-outline-info me-3">EDIT</a>
-
-            <button type="button" class="btn btn-outline-danger">DELETE</button>
-        </div>
-
-
-
-{#        <a href="{{ path('app_main_home') }}">HOME</a>#}
-
+        <a href="{{ path('app_location_index') }}" class="btn btn-secondary">Zurück</a>
     </div>
 {% endblock %}

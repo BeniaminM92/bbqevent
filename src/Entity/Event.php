@@ -62,4 +62,9 @@ class Event
 
         return $this;
     }
+
+    public function seats()
+    {
+        return $this->bookedseats - 200;
+    }
 }
