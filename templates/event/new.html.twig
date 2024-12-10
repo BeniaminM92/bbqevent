@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ pageTitle }}
+{% endblock %}
+
+{% block headline %}
+    {{ pageHeadline }}
+{% endblock %}
+
+{% block body %}
+
+    {{ form(form) }}
+
+
+
+{#    <form method="post">#}
+{#        <div class="mb-3">#}
+{#            <label for="name" class="form-label">Event-Name</label>#}
+{#            <input type="text" class="form-control" name="name" id="name" aria-describedby="eventName">#}
+{#            <div id="name" class="form-text">Füge den Event-Namen hier ein.</div>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label for="description" class="form-label">Description</label>#}
+{#            <input type="text" class="form-control" name="description" id="description">#}
+{#            <div id="description" class="form-text">Füge eine Beschreibung ein.</div>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label for="bookedseats" class="form-label">Gebuchte Plätze</label>#}
+{#            <input type="number" class="form-control" name="bookedseats" id="bookedseats">#}
+{#            <div id="bookedseats" class="form-text">Gib die Anzahl an gebuchten Plätzen an.</div>#}
+{#        </div>#}
+{#        <button type="submit" formmethod="post" class="btn btn-primary">Submit</button>#}
+{#    </form>#}
+
+{% endblock %}
+
+{% block form %}
+
+{% endblock %}

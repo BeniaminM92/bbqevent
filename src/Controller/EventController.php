@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\EventFormType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node\Expr\BinaryOp\Equal;
@@ -27,29 +28,31 @@ class EventController extends AbstractController
     }
 
     #[Route('/show/{id}', name: 'app_event_show')]
-    public function show(string $id = null, EventRepository $eventRepository): Response
+    public function show(int $id, EventRepository $eventRepository): Response
     {
         $event = $eventRepository->find($id);
 
-        if ($event) {
             return $this->render('event/show.html.twig', [
                 'pageTitle' => $event->getName(),
                 'pageHeadline' => 'Details for ' . $event->getName(),
-                'event' => $event,
-            ]);
-        } else {
-            return new Response('Party gibt es nicht!');
-        }
+                'event' => $eventRepository->find($id)]);
     }
 
     #[Route('/edit/{id}', name: 'app_event_edit')]
-    public function edit(Event $event, EntityManagerInterface $entityManager): Response
+    public function edit(Event $event, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $event->setName('Techno-Event');
-        $entityManager->persist($event);
-        $entityManager->flush();
+        $form = $this->createForm(EventFormType::class, $event);
+        $form->handleRequest($request);
 
-        return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $event = $form->getData();
+
+            $entityManager->persist($event);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
+        }
+        return $this->render('event/edit.html.twig', ['form' => $form->createView(), 'pageTitle' => 'Event Übersicht',
+            'pageHeadline' => 'Alle verfügbaren Events']);
     }
 
     #[Route('/delete/{id}', name: 'app_event_delete')]
@@ -59,34 +62,44 @@ class EventController extends AbstractController
         $entityManager->flush();
 //        dd($location);
 
-        return $this->redirectToRoute('app_location_index');
+        return $this->redirectToRoute('app_event_index');
     }
 
     #[Route('/new', name: 'app_event_new')]
     public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
-//        dd($request->query->all());
         $event = new Event();
-        $event->setName('Alex')
-            ->setDescription('blablabla')
-            ->setBookedseats(20);
-//        dd($event);
-        $entityManager->persist($event);
-        $entityManager->flush();
-        return new Response('Event erfolgreich erstellt!');
+        $form = $this->createForm(EventFormType::class, $event, [
+            'action' => $this->generateUrl('app_event_new'),
+            'method' => 'POST',
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            // möglicherweise nicht notwendig da dieser Fall vermutlich bereits in handleRequest übernommen wird
+            $event= $form->getData();
+//            $event->setName($request->request->get('name'))
+//                ->setDescription($request->request->get('description'))
+//                ->setBookedseats($request->request->get('bookedseats'));
+//            dd($event);
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
+        } else {
+            $form = $this->createForm(EventFormType::class, $event);
+
+
+            return $this->render('event/new.html.twig',['form' => $form->createView()]);
+        }
     }
 
     #[Route('/test', name: 'app_event_test')]
     public function test(Request $request)
     {
-        if ($request->isMethod('GET')) {
-
-            return $this->render('post.html.twig');
-        } elseif ($request->isMethod('POST')) {
-            $var = $request->request->all()['key'];
-            return new Response("Machen Sachen $var");
-        }
+        return new Response('Ich komme von event/new');
 
     }
+
 
 }

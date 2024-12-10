@@ -9,13 +9,18 @@
 {% endblock %}
 
 {% block body %}
+    <div>
+        <a href="{{ path('app_location_new') }}" class="btn btn btn-info">Neuer Veranstaltungsort</a>
+    </div>
     <div class="container">
         <h2>Location Übersicht</h2>
         <ul class="list-group">
             {% for location in locations %}
                 <li class="list-group-item">
                     <strong>{{ location.name }}</strong>
+                    <div>
                     <a href="{{ path('app_location_show', { id: location.id }) }}" class="btn btn-sm btn-info">Details</a>
+                    </div>
                 </li>
             {% else %}
                 <li class="list-group-item">Keine Location verfügbar.</li>
