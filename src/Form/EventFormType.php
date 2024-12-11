@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\EventTypeEnum;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -26,6 +28,11 @@ class EventFormType extends AbstractType
             ->add('description', TextareaType::class)
 
             ->add('bookedseats', IntegerType::class)
+
+            ->add('eventtype', EnumType::class, ['class' => EventTypeEnum::class,
+                'expanded' => true,
+//                'multiple' => true
+            ])
 
             ->add('save', SubmitType::class)
 

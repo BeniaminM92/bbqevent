@@ -10,8 +10,10 @@
 
 {% block body %}
 
-    {{ form(form) }}
+{#    {{ form(form) }}#}
+    {{ form_start(form) }}
 
+    {{ form_end(form) }}
     <a href="{{ path('app_event_index') }}" class="btn btn-secondary">Zurück</a>
 
 

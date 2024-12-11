@@ -27,6 +27,9 @@ class Event
     #[ORM\Column]
     private ?int $bookedseats = null;
 
+    #[ORM\Column(nullable: true, enumType: EventTypeEnum::class)]
+    private ?EventTypeEnum $eventtype = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,5 +74,17 @@ class Event
     public function seats()
     {
         return $this->bookedseats - 200;
+    }
+
+    public function getEventtype(): ?EventTypeEnum
+    {
+        return $this->eventtype;
+    }
+
+    public function setEventtype(?EventTypeEnum $eventtype): static
+    {
+        $this->eventtype = $eventtype;
+
+        return $this;
     }
 }

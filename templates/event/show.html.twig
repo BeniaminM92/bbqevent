@@ -13,9 +13,11 @@
         <h2>{{ event.getName() }}</h2>
         <p>{{ event.getDescription() }}</p>
         <p>Verfügbare Plätze: {{ event.seats() }}</p>
+        <p>Event-Typ: {{ event.eventtype.value ?? '' }}</p>
         <a href="{{ path('app_event_edit', { id: event.getId() }) }}" class="btn btn-warning">Bearbeiten</a>
         <a href="{{ path('app_event_delete', { id: event.getId() }) }}" class="btn btn-danger">Löschen</a>
         <a href="{{ path('app_event_index') }}" class="btn btn-secondary">Zurück</a>
     </div>
 {% endblock %}
+
 
