@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ parent() }} | Edit Location {% endblock %}
+{% block title %}
+    {{ pageTitle }} | Ändere die Location
+{% endblock %}
+
+{% block headline %}
+    {{ pageHeadline }}
+{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Edit Location</h1>
 
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-info">Save Changes</button>
-        {{ form_end(form) }}
-    </div>
+    {{ form(form) }}
+
+
+    <a href="{{ path('app_location_index') }}" class="btn btn-secondary">Zurück</a>
+
 {% endblock %}

@@ -11,11 +11,13 @@
 {% block body %}
     <div class="container">
         <h2>{{ location.getName() }}</h2>
-        <p>{{ location.getAddress() }}</p>
+
+        <p>Adresse: {{ location.getAddress() }}</p>
         <p>Kapazität: {{ location.getCapacity() }}</p>
+        <p>Email: {{ location.getEmail() }}</p>
+
         <a href="{{ path('app_location_edit', { id: location.getId() }) }}" class="btn btn-warning">Bearbeiten</a>
         <a href="{{ path('app_location_delete', { id: location.getId() }) }}" class="btn btn-danger">Löschen</a>
-
         <a href="{{ path('app_location_index') }}" class="btn btn-secondary">Zurück</a>
     </div>
 {% endblock %}

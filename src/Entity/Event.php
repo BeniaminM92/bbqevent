@@ -18,9 +18,12 @@ class Event
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Assert\NotBlank(message: 'Das darf nicht leer sein')]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[Assert\NotBlank(message: 'Das darf nicht leer sein')]
+    #[Assert\PositiveOrZero(message: 'This value should be either positive or zero.')]
     #[ORM\Column]
     private ?int $bookedseats = null;
 

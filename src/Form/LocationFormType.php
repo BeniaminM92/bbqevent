@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Location;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,17 +18,19 @@ class LocationFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'attr' => ['placeholder' => 'Name'],
                 ])
 
             ->add('address', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'attr' => ['placeholder' => 'Adresse'],])
 
             ->add('capacity', IntegerType::class, [
                 'required' => true,
                 'attr' => ['placeholder' => 'Kapazität'],])
+
+            ->add('email', EmailType::class, ['attr' => ['placeholder' => 'Email']])
 
             ->add('save', SubmitType::class)
 

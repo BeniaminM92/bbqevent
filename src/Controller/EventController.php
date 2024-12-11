@@ -75,7 +75,7 @@ class EventController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // möglicherweise nicht notwendig da dieser Fall vermutlich bereits in handleRequest übernommen wird
             $event= $form->getData();
 //            $event->setName($request->request->get('name'))
@@ -87,10 +87,9 @@ class EventController extends AbstractController
 
             return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
         } else {
-            $form = $this->createForm(EventFormType::class, $event);
 
-
-            return $this->render('event/new.html.twig',['form' => $form->createView()]);
+            return $this->render('event/new.html.twig', ['form' => $form->createView(), 'pageTitle' => 'Event Übersicht',
+                'pageHeadline' => 'Alle verfügbaren Events']);
         }
     }
 

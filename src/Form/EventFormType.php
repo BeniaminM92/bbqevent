@@ -18,14 +18,14 @@ class EventFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Super Event Name',
-                'required' => true,
-                'help' => 'Trage den Event Namen ein ',
-                'attr' => ['class' => 'bar', 'style' => 'background-color: lightblue;' , 'placeholder' => 'Event Name'],])
+                'label' => 'Name',
+                'required' => false,
+                'help' => 'Trage den Eventnamen ein ',
+                'attr' => ['class' => 'bar', 'style' => 'background-color: lightblue;' , 'placeholder' => 'Name'],])
 
-            ->add('description', TextareaType::class, ['required' => true])
+            ->add('description', TextareaType::class)
 
-            ->add('bookedseats', IntegerType::class, ['required' => true])
+            ->add('bookedseats', IntegerType::class)
 
             ->add('save', SubmitType::class)
 
