@@ -11,8 +11,10 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        EventFactory::createMany(30);
         LocationFactory::createMany(15);
+        EventFactory::createMany(30, function () {
+            return ['location'=> LocationFactory::random()];
+        });
 
         $manager->flush();
     }

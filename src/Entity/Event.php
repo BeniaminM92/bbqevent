@@ -30,6 +30,9 @@ class Event
     #[ORM\Column(nullable: true, enumType: EventTypeEnum::class)]
     private ?EventTypeEnum $eventtype = null;
 
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    private ?Location $location = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -84,6 +87,18 @@ class Event
     public function setEventtype(?EventTypeEnum $eventtype): static
     {
         $this->eventtype = $eventtype;
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): static
+    {
+        $this->location = $location;
 
         return $this;
     }

@@ -34,7 +34,7 @@ final class EventFactory extends PersistentProxyObjectFactory
     {
         return [
             'bookedseats' => self::faker()->numberBetween(50,3000),
-            'description' => self::faker()->text(255),
+            'description' => self::faker()->text(30),
             'name' => self::faker()->userName(),
             'eventtype' => self::faker()->randomElement(EventTypeEnum::cases()),
         ];
