@@ -20,6 +20,7 @@ class EventFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'empty_data' => '',
                 'label' => 'Name',
                 'required' => false,
                 'help' => 'Trage den Eventnamen ein ',

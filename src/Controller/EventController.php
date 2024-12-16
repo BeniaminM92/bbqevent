@@ -6,7 +6,6 @@ use App\Entity\Event;
 use App\Form\EventFormType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\BinaryOp\Equal;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

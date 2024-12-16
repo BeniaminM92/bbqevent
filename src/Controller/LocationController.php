@@ -41,7 +41,6 @@ class LocationController extends AbstractController{
         }
     }
     #[Route('/edit/{id}', name: 'app_location_edit')]
-    //TODO: EDIT UEBERARBEITEN!!!
     public function edit(Location $location, EntityManagerInterface $entityManager, Request $request): Response
     {
         $form = $this->createForm(LocationFormType::class, $location);
